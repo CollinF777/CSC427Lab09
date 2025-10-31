@@ -7,7 +7,7 @@ import java.util.Date;
  *
  * @author Matt Robinson
  */
-public class Appointment extends User {
+public class Appointment {
     public enum Status {
         CANCELLED,
         ACTIVE

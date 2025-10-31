@@ -34,13 +34,13 @@ public class UserService {
         User newUser;
         switch (role.toLowerCase()) {
             case "patient":
-                newUser =  new Patient();
+                newUser = new Patient(userId, username, password, name, email);
                 break;
             case "doctor":
-                newUser = new Doctor();
+                newUser = new Doctor(userId, username, password, name, email);
                 break;
             case "admin":
-                newUser = new Admin();
+                newUser = new Admin(userId, username, password, name, email);
                 break;
             default:
                 throw new RuntimeException("Invalid role for user: " + role);
