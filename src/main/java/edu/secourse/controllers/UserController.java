@@ -1,9 +1,7 @@
-package edu.secourse;
+package edu.secourse.controllers;
 
 import edu.secourse.models.User;
 import edu.secourse.services.UserService;
-
-import java.util.ArrayList;
 
 /**
  * Handles controller operations on User.
