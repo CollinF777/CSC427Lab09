@@ -30,4 +30,35 @@ public class AppointmentService {
         }
         return null;
     }
+
+    public void updateAppointment (Appointment appointment) {
+        for (int i  = 0; i < appointments.size(); i++) {
+            if (appointments.get(i).getAppointmentId() == appointment.getAppointmentId()) {
+                appointments.set(i, appointment);
+                return;
+            }
+        }
+
+        throw new RuntimeException("Cannot update appointment");
+    }
+
+    public boolean deleteAppointment(int id) {
+        Appointment apt = getAppointment(id);
+
+        if (apt == null) {
+            return false;
+        }
+
+        appointments.remove(apt);
+
+        return true;
+    }
+
+    public ArrayList<Appointment> getAppointments() {
+        return appointments;
+    }
+
+    public void setAppointments(ArrayList<Appointment> appointments) {
+        this.appointments = appointments;
+    }
 }
