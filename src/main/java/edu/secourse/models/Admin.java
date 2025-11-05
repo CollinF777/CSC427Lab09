@@ -1,5 +1,10 @@
 package edu.secourse.models;
 
+/**
+ * Model for Admin.
+ *
+ * @author Collin Fair
+ */
 public class Admin extends User {
     private String role = "Admin";
 
