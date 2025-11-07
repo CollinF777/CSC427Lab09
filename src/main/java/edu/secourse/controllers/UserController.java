@@ -39,7 +39,7 @@ public class UserController {
         }
 
         // Check name format
-        if(!Character.isUpperCase(name.charAt(0)) || !name.matches("[a-zA-Z]")){
+        if(!Character.isUpperCase(name.charAt(0)) || !name.matches("[a-zA-Z ]+")){
             throw new RuntimeException("Name is formatted incorrectly.");
         }
 
@@ -112,7 +112,7 @@ public class UserController {
      */
     public void updateName(int id, String newName){
         // Check format of new name
-        if(!Character.isUpperCase(newName.charAt(0)) || !newName.matches("[a-zA-Z]")){
+        if(!Character.isUpperCase(newName.charAt(0)) || !newName.matches("[a-zA-Z ]+")){
             throw new RuntimeException("Name is formatted incorrectly.");
         }
 
