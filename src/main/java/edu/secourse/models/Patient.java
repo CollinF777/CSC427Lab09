@@ -1,5 +1,10 @@
 package edu.secourse.models;
 
+/**
+ * Model for Patient.
+ *
+ * @author Collin Fair
+ */
 public class Patient extends User {
     private String role = "Patient";
 

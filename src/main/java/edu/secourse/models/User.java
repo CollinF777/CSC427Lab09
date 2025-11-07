@@ -1,5 +1,10 @@
 package edu.secourse.models;
 
+/**
+ * Model for User.
+ *
+ * @author Collin Fair
+ */
 public abstract class User {
     private int accNum;
     private String username;

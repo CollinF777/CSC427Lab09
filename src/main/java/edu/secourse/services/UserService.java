@@ -51,6 +51,10 @@ public class UserService {
         return newUser;
     }
 
+    /**
+     * Returns a unique numerical id that is not currently in the cache
+     * @return
+     */
     private int getUniqueId() {
         int ret;
 
@@ -61,6 +65,11 @@ public class UserService {
         return ret;
     }
 
+    /**
+     * Gets a user based off their id and returns said user
+     * @param id
+     * @return
+     */
     public User getUser(int id) {
         for (int i = 0; i < users.size(); i++) {
             if (users.get(i).getAccNum() == id) {
@@ -71,6 +80,11 @@ public class UserService {
         return null;
     }
 
+    /**
+     * Takes in a user, finds a user from the cache whose id matches theirs and updates the user in the cache with
+     * the new information
+     * @param user
+     */
     public void updateUser(User user) {
         for (int i = 0; i < users.size(); i++) {
             if (users.get(i).getAccNum() == user.getAccNum()) {
@@ -78,10 +92,14 @@ public class UserService {
                 return;
             }
         }
-
         throw new RuntimeException("Cannot perform update operation on user that does not yet exist.");
     }
 
+    /**
+     * Finds a user based off their id and removes them from the cache
+     * @param id
+     * @return
+     */
     public boolean deleteUser(int id) {
         User user = getUser(id);
 
