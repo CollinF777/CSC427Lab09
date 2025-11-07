@@ -17,14 +17,26 @@ import java.util.Date;
  * @author Matt Robinson
  */
 public class AppointmentController {
-    private AppointmentService appointmentService;
-    private UserService userService;
+    private final AppointmentService appointmentService;
+    private final UserService userService;
 
+    /**
+     * Creates a new AppointmentController
+     * @param appointmentService AppointmentService linked to this controller
+     * @param userService UserService linked to this controller
+     */
     public AppointmentController(AppointmentService appointmentService, UserService userService) {
         this.appointmentService = appointmentService;
         this.userService = userService;
     }
 
+    /**
+     * Creates a new appointment.
+     * @param patientId The ID of the patient
+     * @param doctorId The ID of the doctor
+     * @param startTime The starting time for the appointment
+     * @return If successful, the Appointment model for the created appointment.
+     */
     public Appointment createAppointment(int patientId, int doctorId, Date startTime) {
         // check that patient exists
         User patient = userService.getUser(patientId);
@@ -49,6 +61,10 @@ public class AppointmentController {
                 (Patient) patient, (Doctor) doctor, startTime, Appointment.Status.ACTIVE);
     }
 
+    /**
+     * Cancels an appointment.
+     * @param appointmentId The ID of the appointment.
+     */
     public void cancelAppointment(int appointmentId) {
         // check that appointment exists
         Appointment appt = appointmentService.getAppointment(appointmentId);
@@ -69,8 +85,13 @@ public class AppointmentController {
 
         // cancel appointment
         appt.setStatus(Appointment.Status.CANCELLED);
+        appointmentService.updateAppointment(appt);
     }
 
+    /**
+     * Deletes an appointment.
+     * @param appointmentId The ID of the appointment.
+     */
     public void deleteAppointment(int appointmentId) {
         // check that appointment exists
         Appointment appt = appointmentService.getAppointment(appointmentId);
@@ -85,7 +106,12 @@ public class AppointmentController {
         appointmentService.deleteAppointment(appointmentId);
     }
 
-    public void changeAppointmentStartTime(int appointmentId, Date startTime) {
+    /**
+     * Reschedules an appointment
+     * @param appointmentId The ID of the appointment
+     * @param startTime The new starting time of the appointment.
+     */
+    public void rescheduleAppointment(int appointmentId, Date startTime) {
         // check that appointment exists
         Appointment appt = appointmentService.getAppointment(appointmentId);
         if (appt == null) {
