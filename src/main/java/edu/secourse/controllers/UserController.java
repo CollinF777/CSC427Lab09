@@ -1,5 +1,6 @@
 package edu.secourse.controllers;
 
+import edu.secourse.exceptions.InvalidIdException;
 import edu.secourse.models.User;
 import edu.secourse.services.UserService;
 
@@ -11,7 +12,15 @@ import java.util.regex.*;
  * @author Corey Suhr
  */
 public class UserController {
-    UserService uService = new UserService();
+    private final UserService uService;
+
+    /**
+     * Creates a new UserController.
+     * @param uService The UserService that this controller controls.
+     */
+    public UserController(UserService uService) {
+        this.uService = uService;
+    }
 
     /**
      * Creates a user after successfully validating all the data
@@ -157,5 +166,19 @@ public class UserController {
         if(!x){
             throw new RuntimeException("Cannot delete a user that does not exist.");
         }
+    }
+
+    /**
+     * Gets a user by their ID.
+     * @param id The ID of the user.
+     * @return The user model.
+     */
+    public User getUser(int id) {
+        User user = uService.getUser(id);
+        if (user == null) {
+            throw new InvalidIdException(String.format("No user exists with ID: '%d'", id));
+        }
+
+        return user;
     }
 }

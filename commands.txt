@@ -1,0 +1,14 @@
+List of commands for Main:
+    user create <username> <password> <emailAddress> <role> <name>
+    user delete <userid>
+    user show <userid>
+    user username <userid> [new username]
+    user password <userid> [new password]
+    user name <userid> [new name]
+    user email <userid> [new email]
+
+    appt create <patientId> <doctorId> <date>
+    appt delete <appointmentId>
+    appt show <appointmentId>
+    appt cancel <appointmentId>
+    appt date <appointmentId> [newDate]
