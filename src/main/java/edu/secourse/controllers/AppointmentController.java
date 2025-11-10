@@ -125,4 +125,22 @@ public class AppointmentController {
         appt.setStartDateTime(startTime);
         appointmentService.updateAppointment(appt);
     }
+
+    /**
+     * Gets appointment information by appointment id
+     * @param appointmentId The ID of the appointment
+     * @return The appointment model
+     */
+    public Appointment getAppointment(int appointmentId) {
+        // check that appointment exists
+        Appointment appt = appointmentService.getAppointment(appointmentId);
+        if (appt == null) {
+            throw new InvalidIdException(String.format(
+                    "Appointment with ID %d doesn't exist.",
+                    appointmentId
+            ));
+        }
+
+        return appt;
+    }
 }
