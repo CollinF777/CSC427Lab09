@@ -13,7 +13,7 @@ import java.util.Date;
  */
 public class AppointmentService {
     private ArrayList<Appointment> appointments;
-    private static int aptIdTracker = 0;
+    private int aptIdTracker = 0;
 
     public AppointmentService() {
         appointments = new ArrayList<>();
@@ -23,14 +23,13 @@ public class AppointmentService {
      * Creates a user, assigning it a unique aptId, storing the model in the AppointmentService cache, and returning
      * @param patient
      * @param doctor
-     * @param startDateTine
+     * @param startDateTime
      * @param status
      * @return
      */
-    public Appointment createAppointment(Patient patient, Doctor doctor, Date startDateTine, Appointment.Status status) {
+    public Appointment createAppointment(Patient patient, Doctor doctor, Date startDateTime, Appointment.Status status) {
         int aptId = aptIdTracker++;
-
-        Appointment newApt = new Appointment(aptId, patient, doctor, startDateTine, status);
+        Appointment newApt = new Appointment(aptId, patient, doctor, startDateTime, status);
         appointments.add(newApt);
         return newApt;
     }
@@ -89,4 +88,5 @@ public class AppointmentService {
     public void setAppointments(ArrayList<Appointment> appointments) {
         this.appointments = appointments;
     }
+
 }
