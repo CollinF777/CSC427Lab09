@@ -22,6 +22,9 @@ import java.util.Scanner;
 public class Main {
     private static InputHandler HANDLERS = new InputHandler();
 
+    /*
+    Defines the input handlers for user commands
+    */
     static {
         /*
         Handlers for user
@@ -140,6 +143,9 @@ public class Main {
         });
     }
 
+    /**
+     * Program entry point
+     */
     public static void main(String[] args) {
         // get environment
         Pair<UserController, AppointmentController> environment = generateEnvironment();
@@ -171,10 +177,20 @@ public class Main {
         }
     }
 
+    /**
+     * Joins an array of strings after a given index
+     * @param index The index to start joining
+     * @param strings The array of strings
+     * @return The strings at and after index, concatenated with " "
+     */
     private static String joinStringsAfter(int index, String[] strings) {
         return String.join(" ", Arrays.copyOfRange(strings, index, strings.length));
     }
 
+    /**
+     * Generates a test environment
+     * @return The UserController and AppointmentController as a Pair
+     */
     private static Pair<UserController, AppointmentController> generateEnvironment() {
         UserService userService = new UserService();
         AppointmentService appointmentService = new AppointmentService();
