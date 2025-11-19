@@ -7,10 +7,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 
 import edu.secourse.models.*;
+import edu.secourse.services.UserService;
 
 class UserControllerTest {
+    // Create UserService to be used in UserController
+    UserService uService = new UserService();
     // Create UserController object for use throughout tests
-    UserController uController = new UserController();
+    UserController uController = new UserController(uService);
 
     // Test data
     String[] usernames = {"JohnJimbo", "AliceTheTechWiz", "JimboJazz", "Maurice", "ChesterStone", "ChesterCheetah", "blueee", "Smafty", "MattaRama", "TheDrunkNinja"};
