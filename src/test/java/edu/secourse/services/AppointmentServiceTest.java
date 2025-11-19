@@ -59,7 +59,9 @@ public class AppointmentServiceTest {
                 // Test apt exists
                 () -> assertNotNull(apt),
                 // Tests apt is gotten from the getAppointment
-                () -> assertSame(apt, aptService.getAppointment(apt.getAppointmentId()))
+                () -> assertSame(apt, aptService.getAppointment(apt.getAppointmentId())),
+                // Test an apt that doesnt exist
+                () -> assertNull(aptService.getAppointment(77))
         );
     }
 
@@ -95,6 +97,24 @@ public class AppointmentServiceTest {
     }
 
     @Test
+    @DisplayName("updateAppointment: Throws exception when appointment does not exist")
+    void updateAptExceptionTest() {
+        Patient p = new Patient(1, "cfair4", "123", "Collin", "cfair4@brockport.edu");
+        Doctor d = new Doctor(1, "GMoney527", "123", "Stan", "GMoney527@goat.com");
+        Date date = new Date();
+
+        // Create an appointment with an ID that will NOT exist in the service
+        Appointment fakeApt = new Appointment(999, p, d, date, Appointment.Status.ACTIVE);
+
+        // Assert that updateAppointment throws the correct RuntimeException
+        RuntimeException ex = assertThrows(RuntimeException.class, () ->
+                aptService.updateAppointment(fakeApt)
+        );
+
+        assertEquals("Cannot update appointment", ex.getMessage());
+    }
+
+    @Test
     @DisplayName("deleteAppointment(int id): Deletes an appointment")
     void deleteAptTest() {
         Patient p1 = new Patient(1, "cfair4", "123", "Collin", "cfair4@brockport.edu");
@@ -108,7 +128,9 @@ public class AppointmentServiceTest {
                 // Tests that apt1 exists
                 () -> assertNotNull(apt1),
                 // Tests that apt was deleted from the service
-                () -> assertEquals(0, aptService.getAppointments().size())
+                () -> assertEquals(0, aptService.getAppointments().size()),
+                // Test a fake apt
+                () -> assertFalse(aptService.deleteAppointment(77))
         );
     }
 
