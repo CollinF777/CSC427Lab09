@@ -1,16 +1,25 @@
 package edu.secourse.controllers;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 
 import edu.secourse.models.*;
+import edu.secourse.services.UserService;
 
+@ExtendWith(MockitoExtension.class)
 class UserControllerTest {
-    // Create UserController object for use throughout tests
-    UserController uController = new UserController();
+
+    @Mock
+    private UserService userService;
+
+    private UserController uController;
 
     // Test data
     String[] usernames = {"JohnJimbo", "AliceTheTechWiz", "JimboJazz", "Maurice", "ChesterStone", "ChesterCheetah", "blueee", "Smafty", "MattaRama", "TheDrunkNinja"};
@@ -21,6 +30,11 @@ class UserControllerTest {
 
     // Makes ArrayList of users to easily pull information
     ArrayList<User> users = new ArrayList<User>();
+
+    @BeforeEach
+    void setUp() {
+        uController = new UserController(userService);
+    }
 
     @Test
     void createUser() {
