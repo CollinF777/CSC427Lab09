@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"edu.secourse"},{"l":"edu.secourse.controllers"},{"l":"edu.secourse.exceptions"},{"l":"edu.secourse.models"},{"l":"edu.secourse.services"},{"l":"edu.secourse.types"}];updateSearchResults();
