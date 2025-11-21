@@ -29,41 +29,48 @@ git clone https://github.com/CollinF777/CSC427Lab09.git
 
 ## Project Structure
 ```
-CSC427Lab09/  
-│  pom.xml  
-│  commands.txt  
-│  .gitignore  
-└─ src/  
-   └─ main/  
-      └─ java/  
-         └─ edu.secourse  
-           └─ controllers  
-             └─ AppointmentController  
-             └─ UserController  
-           └─ exceptions  
-             └─ AppointmentDoesNotExistException  
-             └─ InvalidIdException  
-           └─ models  
-             └─ Admin  
-             └─ Appointment  
-             └─ Doctor  
-             └─ Patient  
-             └─ User  
-           └─ services  
-             └─ AppointmentService  
-             └─ UserService  
-           └─ types  
-             └─ InputHandler  
-             └─ Pair  
-           └─ Main  
-         └─ resources  
-   └─ test  
-     └─ java  
-       └─ edu.secourse  
-         └─ controllers  
-          └─ AppointmentControllerTest  
-          └─ UserControllerTest  
-         └─ services  
-          └─ AppointmentServiceTest  
-          └─ UserServiceTest  
+CSC427Lab09/
+│  pom.xml
+│  commands.txt
+│  .gitignore
+│
+└─ src/
+   └─ main/
+      └─ java/
+         └─ edu.secourse/
+            ├─ controllers/
+            │   ├─ AppointmentController
+            │   └─ UserController
+            │
+            ├─ exceptions/
+            │   ├─ AppointmentDoesNotExistException
+            │   └─ InvalidIdException
+            │
+            ├─ models/
+            │   ├─ Admin
+            │   ├─ Appointment
+            │   ├─ Doctor
+            │   ├─ Patient
+            │   └─ User
+            │
+            ├─ services/
+            │   ├─ AppointmentService
+            │   └─ UserService
+            │
+            ├─ types/
+            │   ├─ InputHandler
+            │   └─ Pair
+            │
+            └─ Main
+      └─ resources/
+   └─ test/
+      └─ java/
+         └─ edu.secourse/
+            ├─ controllers/
+            │   ├─ AppointmentControllerTest
+            │   └─ UserControllerTest
+            │
+            └─ services/
+                ├─ AppointmentServiceTest
+                └─ UserServiceTest
 ```
