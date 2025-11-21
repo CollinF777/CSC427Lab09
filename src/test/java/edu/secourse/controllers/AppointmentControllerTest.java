@@ -22,19 +22,27 @@ class AppointmentControllerTest {
     private Patient patient;
     private Doctor doctor;
 
+    /**
+     * Sets up a fresh controller, services, and test users before each test.
+     * Ensures each test runs in isolation with a clean state.
+     */
     @BeforeEach
     void setUp() {
         appointmentService = new AppointmentService();
         userService = new UserService();
         controller = new AppointmentController(appointmentService, userService);
 
-        // Create valid users
+        // Create a test patient and doctor for use in appointment tests
         patient = (Patient) userService.createUser("patientUser", "pass", "Patient Name", "patient@example.com", "patient");
         doctor = (Doctor) userService.createUser("doctorUser", "pass", "Doctor Name", "doctor@example.com", "doctor");
     }
 
     // ---------- CREATE APPOINTMENT TESTS ----------
 
+    /**
+     * Tests that creating an appointment with valid patient and doctor succeeds
+     * and sets the correct appointment status.
+     */
     @Test
     void testCreateAppointmentSuccess() {
         Appointment appt = controller.createAppointment(patient.getAccNum(), doctor.getAccNum(), new Date());
@@ -44,6 +52,10 @@ class AppointmentControllerTest {
         assertEquals(Appointment.Status.ACTIVE, appt.getStatus());
     }
 
+    /**
+     * Tests creating an appointment with an invalid patient.
+     * Expects InvalidIdException since the user is not a patient.
+     */
     @Test
     void testCreateAppointmentInvalidPatient() {
         Doctor fakeDoctor = (Doctor) userService.createUser("fakeDoctor", "pass", "Fake Doc", "fake@example.com", "doctor");
@@ -53,6 +65,10 @@ class AppointmentControllerTest {
         assertTrue(ex.getMessage().contains("either doesn't exist or isn't a patient"));
     }
 
+    /**
+     * Tests creating an appointment with an invalid doctor.
+     * Expects InvalidIdException since the user is not a doctor.
+     */
     @Test
     void testCreateAppointmentInvalidDoctor() {
         Patient fakePatient = (Patient) userService.createUser("fakePatient", "pass", "Fake Patient", "fake@example.com", "patient");
@@ -64,6 +80,10 @@ class AppointmentControllerTest {
 
     // ---------- CANCEL APPOINTMENT TESTS ----------
 
+    /**
+     * Tests successful cancellation of an existing appointment.
+     * The appointment status should change to CANCELLED.
+     */
     @Test
     void testCancelAppointmentSuccess() {
         Appointment appt = controller.createAppointment(patient.getAccNum(), doctor.getAccNum(), new Date());
@@ -73,6 +93,10 @@ class AppointmentControllerTest {
         assertEquals(Appointment.Status.CANCELLED, updated.getStatus());
     }
 
+    /**
+     * Tests cancelling an appointment that is already cancelled.
+     * Expects AppointmentDoesNotExistException to be thrown.
+     */
     @Test
     void testCancelAppointmentAlreadyCancelled() {
         Appointment appt = controller.createAppointment(patient.getAccNum(), doctor.getAccNum(), new Date());
@@ -85,6 +109,10 @@ class AppointmentControllerTest {
         assertTrue(ex.getMessage().contains("was already cancelled"));
     }
 
+    /**
+     * Tests cancelling an appointment with an invalid ID.
+     * Expects InvalidIdException to be thrown.
+     */
     @Test
     void testCancelAppointmentInvalidId() {
         InvalidIdException ex = assertThrows(InvalidIdException.class,
@@ -94,6 +122,10 @@ class AppointmentControllerTest {
 
     // ---------- DELETE APPOINTMENT TESTS ----------
 
+    /**
+     * Tests successful deletion of an existing appointment.
+     * After deletion, the appointment should no longer exist in the service.
+     */
     @Test
     void testDeleteAppointmentSuccess() {
         Appointment appt = controller.createAppointment(patient.getAccNum(), doctor.getAccNum(), new Date());
@@ -101,6 +133,10 @@ class AppointmentControllerTest {
         assertNull(appointmentService.getAppointment(appt.getAppointmentId()));
     }
 
+    /**
+     * Tests deleting an appointment with an invalid ID.
+     * Expects InvalidIdException to be thrown.
+     */
     @Test
     void testDeleteAppointmentInvalidId() {
         InvalidIdException ex = assertThrows(InvalidIdException.class,
@@ -110,6 +146,10 @@ class AppointmentControllerTest {
 
     // ---------- RESCHEDULE APPOINTMENT TESTS ----------
 
+    /**
+     * Tests rescheduling an existing appointment to a new time.
+     * The appointment start date/time should be updated.
+     */
     @Test
     void testRescheduleAppointmentSuccess() {
         Appointment appt = controller.createAppointment(patient.getAccNum(), doctor.getAccNum(), new Date());
@@ -120,6 +160,10 @@ class AppointmentControllerTest {
         assertEquals(newTime, updated.getStartDateTime());
     }
 
+    /**
+     * Tests rescheduling an appointment with an invalid ID.
+     * Expects InvalidIdException to be thrown.
+     */
     @Test
     void testRescheduleAppointmentInvalidId() {
         InvalidIdException ex = assertThrows(InvalidIdException.class,
@@ -129,6 +173,10 @@ class AppointmentControllerTest {
 
     // ---------- GET APPOINTMENT TESTS ----------
 
+    /**
+     * Tests fetching an existing appointment by its ID.
+     * The fetched appointment should match the created appointment.
+     */
     @Test
     void testGetAppointmentSuccess() {
         Appointment appt = controller.createAppointment(patient.getAccNum(), doctor.getAccNum(), new Date());
@@ -136,6 +184,10 @@ class AppointmentControllerTest {
         assertEquals(appt, fetched);
     }
 
+    /**
+     * Tests fetching an appointment with an invalid ID.
+     * Expects InvalidIdException to be thrown.
+     */
     @Test
     void testGetAppointmentInvalidId() {
         InvalidIdException ex = assertThrows(InvalidIdException.class,
@@ -145,6 +197,10 @@ class AppointmentControllerTest {
 
     // ---------- MULTIPLE APPOINTMENTS ----------
 
+    /**
+     * Tests creating multiple appointments for the same patient and doctor.
+     * Ensures each appointment is distinct and stored correctly.
+     */
     @Test
     void testMultipleAppointmentsForSamePatientDoctor() {
         Date now = new Date();
