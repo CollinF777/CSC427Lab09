@@ -28,10 +28,12 @@ class AppointmentControllerTest {
         userService = new UserService();
         controller = new AppointmentController(appointmentService, userService);
 
-        // Create sample users via UserService
+        // Create valid users
         patient = (Patient) userService.createUser("patientUser", "pass", "Patient Name", "patient@example.com", "patient");
         doctor = (Doctor) userService.createUser("doctorUser", "pass", "Doctor Name", "doctor@example.com", "doctor");
     }
+
+    // ---------- CREATE APPOINTMENT TESTS ----------
 
     @Test
     void testCreateAppointmentSuccess() {
@@ -60,6 +62,8 @@ class AppointmentControllerTest {
         assertTrue(ex.getMessage().contains("either doesn't exist or isn't a doctor"));
     }
 
+    // ---------- CANCEL APPOINTMENT TESTS ----------
+
     @Test
     void testCancelAppointmentSuccess() {
         Appointment appt = controller.createAppointment(patient.getAccNum(), doctor.getAccNum(), new Date());
@@ -72,7 +76,9 @@ class AppointmentControllerTest {
     @Test
     void testCancelAppointmentAlreadyCancelled() {
         Appointment appt = controller.createAppointment(patient.getAccNum(), doctor.getAccNum(), new Date());
-        controller.cancelAppointment(appt.getAppointmentId());
+        // Manually cancel to hit the exception branch
+        appt.setStatus(Appointment.Status.CANCELLED);
+        appointmentService.updateAppointment(appt);
 
         AppointmentDoesNotExistException ex = assertThrows(AppointmentDoesNotExistException.class,
                 () -> controller.cancelAppointment(appt.getAppointmentId()));
@@ -86,11 +92,12 @@ class AppointmentControllerTest {
         assertTrue(ex.getMessage().contains("doesn't exist"));
     }
 
+    // ---------- DELETE APPOINTMENT TESTS ----------
+
     @Test
     void testDeleteAppointmentSuccess() {
         Appointment appt = controller.createAppointment(patient.getAccNum(), doctor.getAccNum(), new Date());
         controller.deleteAppointment(appt.getAppointmentId());
-
         assertNull(appointmentService.getAppointment(appt.getAppointmentId()));
     }
 
@@ -100,6 +107,8 @@ class AppointmentControllerTest {
                 () -> controller.deleteAppointment(999));
         assertTrue(ex.getMessage().contains("doesn't exist"));
     }
+
+    // ---------- RESCHEDULE APPOINTMENT TESTS ----------
 
     @Test
     void testRescheduleAppointmentSuccess() {
@@ -118,11 +127,12 @@ class AppointmentControllerTest {
         assertTrue(ex.getMessage().contains("doesn't exist"));
     }
 
+    // ---------- GET APPOINTMENT TESTS ----------
+
     @Test
     void testGetAppointmentSuccess() {
         Appointment appt = controller.createAppointment(patient.getAccNum(), doctor.getAccNum(), new Date());
         Appointment fetched = controller.getAppointment(appt.getAppointmentId());
-
         assertEquals(appt, fetched);
     }
 
@@ -133,19 +143,17 @@ class AppointmentControllerTest {
         assertTrue(ex.getMessage().contains("doesn't exist"));
     }
 
+    // ---------- MULTIPLE APPOINTMENTS ----------
+
     @Test
     void testMultipleAppointmentsForSamePatientDoctor() {
         Date now = new Date();
         Appointment appt1 = controller.createAppointment(patient.getAccNum(), doctor.getAccNum(), now);
-        Appointment appt2 = controller.createAppointment(patient.getAccNum(), doctor.getAccNum(), new Date(now.getTime() + 3600_000)); // +1 hour
+        Appointment appt2 = controller.createAppointment(patient.getAccNum(), doctor.getAccNum(), new Date(now.getTime() + 3600_000));
 
-        // Check both appointments exist in service
         assertEquals(appt1, appointmentService.getAppointment(appt1.getAppointmentId()));
         assertEquals(appt2, appointmentService.getAppointment(appt2.getAppointmentId()));
-
-        // Ensure they are distinct
         assertNotEquals(appt1.getAppointmentId(), appt2.getAppointmentId());
         assertNotEquals(appt1.getStartDateTime(), appt2.getStartDateTime());
     }
-
 }
