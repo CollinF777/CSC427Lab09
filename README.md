@@ -1,5 +1,5 @@
 # CSC427 Lab 09
-**Authors:** Collin F., Matthew Robinson, Corey Suhr, Samprada Pradhan  
+**Authors:** Collin Fair, Matthew Robinson, Corey Suhr, Samprada Pradhan  
 **Course:** CSC 427 – Fall 2025
 
 ## Overview
