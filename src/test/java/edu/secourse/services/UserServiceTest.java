@@ -71,8 +71,8 @@ class UserServiceTest {
                 // Test that the ID cannot be a negative integer
                 () -> assertNull(service.getUser(-1)),
                 // check that an existing user can be retrieved
-                () -> assertNotNull(service.getUser(user1.getAccNum())),
-                () -> assertNotNull(service.getUser(user2.getAccNum()))
+                () -> assertSame(service.getUser(user1.getAccNum()), user1),
+                () -> assertSame(service.getUser(user2.getAccNum()), user2)
         );
     }
 
