@@ -21,7 +21,6 @@ This repository contains the Lab 09 assignment for CSC 427. The project is imple
 1. Clone the repository:
 ```bash
 git clone https://github.com/CollinF777/CSC427Lab09.git
-cd CSC427Lab09
 ```
 
 2. Open it in InteliJ and either  
