@@ -158,6 +158,37 @@ class UserControllerTest {
         );
     }
 
+    @Test
+    void getUser(){
+        populateUsers();
+
+        boolean isUnique;
+        int uniqueID = users.get(0).getAccNum() + 1;
+
+        // Finds user id that is not currently being used
+        do{
+            isUnique = true;
+            for(int i = 0; i < users.size(); i++){
+                if(uniqueID == users.get(i).getAccNum()){
+                    isUnique = false;
+                    uniqueID++;
+                    break;
+                }
+            }
+        } while(!isUnique);
+
+        // Make final testID to pass into method
+        final int testID = uniqueID;
+
+        assertAll(
+                // Tests correct functionality
+                () -> assertDoesNotThrow(() -> {uController.getUser(users.get(0).getAccNum());}),
+
+                // Tests for a user that does not exists
+                () -> assertThrows(Exception.class, () -> {uController.getUser(testID);})
+        );
+    }
+
     private void populateUsers(){
         // Populate uController with users and add them to User ArrayList
         for(int i = 0; i < usernames.length; i++){
